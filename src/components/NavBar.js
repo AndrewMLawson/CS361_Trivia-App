@@ -1,12 +1,12 @@
 import React from 'react';
 
-export function NavBar({ isLoggedIn, onClick}){
+export function NavBar({ handleLogout, goHelp, goHome }){
     return(
         <div className = 'navbar'>
             <ul className = 'navbar-ul'>
-                <li className='navbar-li'><a>Home</a></li>
-                <li className='navbar-li'><a>Help</a></li>
-                <li className='navbar-li'><a onClick={onClick}>Logout</a></li>
+                <li className='navbar-li'><a onClick={goHome}>Home</a></li>
+                <li className='navbar-li'><a onClick={goHelp}>Help</a></li>
+                <li className='navbar-li'><a onClick={handleLogout}>Logout</a></li>
             </ul>
         </div>
     );

@@ -1,15 +1,15 @@
 import React from 'react';
 
-export function Home(){
+export function Home({goPlayGame, goSettings, goStats, playerName, setQuestions}){
     return(
     <div>
       <br></br>
-      <h1>Player name...</h1>
-      <button>Play</button>
+      <h1>Hello, {playerName}!</h1>
+      <button onClick={goPlayGame}>Play</button>
       <br></br>
-      <button>Settings</button>
+      <button onClick={goSettings}>Settings</button>
       <br></br>
-      <button>Statistics</button>
+      <button onClick={goStats}>Statistics</button>
       <br></br>
       <p>Message for updates...</p>
     </div>
