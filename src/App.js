@@ -16,7 +16,7 @@ function App() {
   const [playerName, setPlayerName] = useState("Guest");
   const [isHome, setIsHome] = useState(true);
   const [settingsMenu, setSettings] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState("");
   const [numOfQuestions, setNumQuestions] = useState(10);
   const [playGame, setPlayGame] = useState(false);
   const [questions, setQuestions] = useState({});
@@ -26,7 +26,7 @@ function App() {
 
 
   //URL for trivia question database
-  let triviaurl = "https://opentdb.com/api.php?amount=10"
+  let triviaurl = "https://opentdb.com/api.php?"
 
   //Partner's URL 
   let microurl = "http://24.199.127.136:8000/stats/"
@@ -48,6 +48,8 @@ function App() {
     setEndGame(false);
     setStatsMenu(false);
     setHelpMenu(false);
+    setNumQuestions(10);
+    setCategories("");
   }
 
   function goHome(){
@@ -66,6 +68,8 @@ function App() {
     setEndGame(false);
     setStatsMenu(false);
     setHelpMenu(false);
+    console.log(categories);
+    console.log(numOfQuestions);
   }
 
   function goStats(){
@@ -96,8 +100,18 @@ function App() {
   }
 
   function getQuestions(){
+      let categories_url = "";
+      let num_url = "";
+      if(categories) {
+        categories_url = `&category=${categories}`
+      }
+      if(numOfQuestions){
+        num_url = `amount=${numOfQuestions}`
+      }
+      let newurl = triviaurl + num_url + categories_url;
+      console.log(newurl);
       let questions;
-      axios.post(triviaurl)
+      axios.post(newurl)
       .then(function(response){
         questions = response.data.results
         console.log(questions);
@@ -115,7 +129,7 @@ function App() {
   if (isHome && isLoggedIn){
     content = <Home playerName={playerName} goPlayGame={goPlayGame} goSettings={goSettings} goStats={goStats}/>;
   } else if (settingsMenu){
-    content = <Settings numOfQuestions={numOfQuestions} setNumQuestions={setNumQuestions} categories={categories} setCategories={setCategories}/>;
+    content = <Settings numOfQuestions={numOfQuestions} setNumQuestions={setNumQuestions} categories={categories} setCategories={setCategories} getQuestions={getQuestions}/>;
   } else if(statsMenu){
     content = <Statistics />;
   } else if(helpMenu){
@@ -125,13 +139,13 @@ function App() {
   } else if(endGame){
     content = <EndGame />;
   } else {
-    content = <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin}/>;
+    content = <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin} getQuestions={getQuestions}/>;
   }
 
-  useEffect(() => {
-    getQuestions();
-    console.log("Init!");
-  }, []);
+  // useEffect(() => {
+  //   getQuestions();
+  //   console.log("Init!");
+  // }, []);
 
   //Root rendering
   return (

@@ -1,8 +1,12 @@
 import React from 'react';
 
-export function Settings(){
+export function Settings({numOfQuestions, setNumQuestions, categories, setCategories, getQuestions}){
 
     let trivia_categories = [
+        {
+            id: "",
+            name: "All Categories"
+        },
         {
             id: 9,
             name: "General Knowledge"
@@ -102,28 +106,49 @@ export function Settings(){
     ];
 
     let category_options = trivia_categories.map((category)=> {
-        return(
-            <>
-                <input key={category.id} type="radio" id={category.id} value={category.name} name="category" /> <label for={category.id}>{category.name}</label>
-            </>
-        );
+        if (category.id === categories){
+            return(
+                <>
+                    <input defaultChecked key={category.id} type="radio" id={category.id} value={category.id} name="category" /> <label for={category.id}>{category.name}</label>
+                    <br></br>
+                </>
+            );
+        } else {
+            return(
+                <>
+                    <input key={category.id} type="radio" id={category.id} value={category.id} name="category" /> <label for={category.id}>{category.name}</label>
+                    <br></br>
+                </>
+            );
+        }
     });
 
-    function handleSubmission(formData){
-        console.log(formData);
+    function onChangeCategory(event){
+        setCategories(event.target.value);
+        console.log(categories);
     }
 
+    function onChangeNum(event){
+        setNumQuestions(event.target.value);
+        console.log(numOfQuestions);
+    }
+
+    function handleSubmission(event){
+        getQuestions();
+        event.preventDefault();
+    }
 
     return(
         <div>
             <h2>Settings</h2>
             <form onSubmit={handleSubmission}>
                 <h3>Categories</h3>
-                <div>
+                <div onChange={onChangeCategory}>
                     {category_options}
                 </div>
                 <h3>Number of Questions</h3>
-                <input type="number" name="numofquestions" />
+                <input type="number" name="numofquestions" onChange={onChangeNum} />
+                <br></br>
                 <input type="submit" value="Submit" />
             </form>
         </div>
