@@ -60,6 +60,26 @@ a {
 
 }
 
+h1, h2, h3 {
+  margin: 7px;
+}
+
+p {
+  margin: 10px;
+}
+
+button {
+  background-color: orange; /* Green */
+  border: none;
+  color: black;
+  padding: 15px 32px;
+  margin: 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

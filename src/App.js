@@ -26,6 +26,12 @@ function App() {
   const [helpMenu, setHelpMenu] = useState(false);
 
 
+  //URL for trivia question database
+  let triviaurl = "https://opentdb.com/api.php?amount=10"
+
+  //Partner's URL 
+  let microurl = "http://24.199.127.136:8000/stats/"
+
   //Changes to state for content rendering
   let content;
   let navbar;
@@ -88,10 +94,20 @@ function App() {
       setEndGame(false);
       setStatsMenu(false);
       setHelpMenu(false);
+      getQuestions();
   }
 
   function handleSetRounds(num){
     setRounds(num);
+  }
+
+  function getQuestions(){
+      let questions;
+      axios.post(triviaurl)
+      .then(function(response){
+        questions = response.data.results
+        setQuestions(questions);
+      })
   }
 
   //Conditional content rendering

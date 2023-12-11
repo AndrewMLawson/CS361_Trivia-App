@@ -6,7 +6,7 @@ export function Login({ isLoggedIn, handleLogin}){
         <div>
         <header>
           <h1>Welcome to TriviaApp</h1>
-          <h2>Sign In...</h2>
+          <h2>**Sign-In functionality coming soon!</h2>
           <button onClick={handleLogin}>Continue as guest</button>
         </header>
       </div>

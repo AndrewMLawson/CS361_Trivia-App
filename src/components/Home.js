@@ -11,7 +11,8 @@ export function Home({goPlayGame, goSettings, goStats, playerName, setQuestions}
       <br></br>
       <button onClick={goStats}>Statistics</button>
       <br></br>
-      <p>Message for updates...</p>
+      <h3>Message:</h3>
+      <p>Welcome to TriviaApp! This is where you will find updates and information about new features!</p>
     </div>
     );
 }
