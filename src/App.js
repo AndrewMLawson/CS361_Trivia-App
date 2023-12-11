@@ -9,7 +9,7 @@ import { Statistics } from './components/Statistics';
 import { Help } from './components/Help';
 import { GameScreen } from './components/GameScreen';
 import { EndGame } from './components/EndGame';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -17,7 +17,6 @@ function App() {
   const [isHome, setIsHome] = useState(true);
   const [settingsMenu, setSettings] = useState(false);
   const [categories, setCategories] = useState([]);
-  const [numOfRounds, setRounds] = useState(3);
   const [numOfQuestions, setNumQuestions] = useState(10);
   const [playGame, setPlayGame] = useState(false);
   const [questions, setQuestions] = useState({});
@@ -94,11 +93,6 @@ function App() {
       setEndGame(false);
       setStatsMenu(false);
       setHelpMenu(false);
-      getQuestions();
-  }
-
-  function handleSetRounds(num){
-    setRounds(num);
   }
 
   function getQuestions(){
@@ -106,37 +100,45 @@ function App() {
       axios.post(triviaurl)
       .then(function(response){
         questions = response.data.results
+        console.log(questions);
         setQuestions(questions);
       })
   }
+
 
   //Conditional content rendering
   if (!isLoggedIn){
     navbar = <></>
   } else {
-    navbar = <NavBar goHome={goHome} handleLogout={handleLogout} goHelp={goHelp}/>
+    navbar = <NavBar goHome={goHome} handleLogout={handleLogout} goHelp={goHelp}/>;
   }
   if (isHome && isLoggedIn){
     content = <Home playerName={playerName} goPlayGame={goPlayGame} goSettings={goSettings} goStats={goStats}/>;
   } else if (settingsMenu){
-    content = <Settings />;
+    content = <Settings numOfQuestions={numOfQuestions} setNumQuestions={setNumQuestions} categories={categories} setCategories={setCategories}/>;
   } else if(statsMenu){
     content = <Statistics />;
   } else if(helpMenu){
     content = <Help />;
   } else if(playGame){
-    content = <GameScreen />;
+    content = <GameScreen questions={questions}/>;
   } else if(endGame){
     content = <EndGame />;
   } else {
     content = <Login isLoggedIn={isLoggedIn} handleLogin={handleLogin}/>;
   }
+
+  useEffect(() => {
+    getQuestions();
+    console.log("Init!");
+  }, []);
+
   //Root rendering
   return (
     <div className = 'main'>
       {navbar}
       {content}
-  </div>
+    </div>
   );
 }
 
