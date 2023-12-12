@@ -135,7 +135,7 @@ function App() {
   } else if(helpMenu){
     content = <Help />;
   } else if(playGame){
-    content = <GameScreen questions={questions}/>;
+    content = <GameScreen questions={questions} numOfQuestions={numOfQuestions}/>;
   } else if(endGame){
     content = <EndGame />;
   } else {
