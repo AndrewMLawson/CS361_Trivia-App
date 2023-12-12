@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-
+import axios from 'axios';
 
 export function GameScreen({questions, numOfQuestions}){
     const [results, setResults] = useState({})
+    const microurl = "http://localhost:8777/stats/";
 
     //Initialize answers object for microservice
     useEffect(() => {
@@ -53,16 +54,34 @@ export function GameScreen({questions, numOfQuestions}){
         let resultsCopy = results;
         if(event.target.value === questions[questionPosition].correct_answer){
             resultsCopy[questionPosition] = true;
-            console.log(resultsCopy)
         } else {
             resultsCopy[questionPosition] = false
-            console.log(resultsCopy)
         }
         setResults(resultsCopy);
     }
 
+    async function postFinalStats(url = "", data = {}) {
+        const response = await fetch(url, {
+          method: "POST", 
+          mode: "cors", 
+          cache: "no-cache", 
+          credentials: "same-origin", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+          redirect: "follow", 
+          referrerPolicy: "no-referrer", 
+          body: JSON.stringify(data),
+        });
+        return response.json(); 
+      }
+
     function handleSubmission(event){
-        
+        console.log(results);
+        // postFinalStats(microurl, results);
+        postFinalStats(microurl, results).then((data) => {
+            console.log(data); 
+          });
         event.preventDefault();
     }
 
